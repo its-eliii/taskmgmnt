@@ -1,0 +1,22 @@
+#root {
+  max-width: 100vw;
+  text-align: center;
+}
+
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
+.layout-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.content {
+  margin-top: 60px;
+  margin-left: 190px;
+  padding: 10px;
+  /* min-height: calc(100vh - 80px); */
+  background-color: #AECBEC;
+}

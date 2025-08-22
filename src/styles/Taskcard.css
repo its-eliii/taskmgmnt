@@ -1,0 +1,52 @@
+.task-card {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    border-radius: 20px;
+    margin: 3px 0;
+    width: 100%;
+}
+
+.task-card.urgent {
+    background-color: #FF7777; /* Red for urgent tasks */
+}
+.task-card.non-urgent {
+    background-color: #B168FF; /* Green for non-urgent tasks */
+}
+.task-card.late {
+    background-color: #FFB751; /* Orange for late tasks */
+}
+.task-card.done {
+    background-color: #51FF63; /* Green for done tasks */
+}
+
+.task-card h3 {
+    font-size: 1em;
+    margin: 5px 0;
+}
+.task-card p {
+    font-size: 0.9em;
+    margin: 0;
+    padding: 5px;
+}
+
+.madbtn {
+    background-color: #51FF63;
+    color: #1A5190;
+    border: none;
+    padding: 2px 20px;
+    margin: 5px 0;
+    font-size: 0.8em;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+
+/* const STATUS = {
+  NON_URGENT: { label: "Non-Urgent", color: "#B168FF" },
+  URGENT: { label: "Urgent", color: "#FF7777" },
+  LATE: { label: "Late", color: "#FFB751" },
+  DONE: { label: "Done", color: "#51FF63" },
+}; */
