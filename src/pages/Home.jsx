@@ -5,7 +5,7 @@ import "../styles/Home.css";
 import Layout from "../components/Layout.jsx";
 import Summary from "../components/Summary.jsx";
 import Taskcard from "../components/Taskcard.jsx";
-import Calendar from "../components/Calendar.jsx";
+
 
 
 const STATUS = {
@@ -16,8 +16,7 @@ const STATUS = {
 };
 
 const taskModal = () => {
-    // Logic to create a new task, ganito muna 
-    console.log("Open task modal");
+    alert("Task creation modal coming soon...");
 }
 
 function Home() {
@@ -35,7 +34,6 @@ function Home() {
             <Summary tasks={taskCountToday} />
             <div className="events">
                 <div className="calendar">
-                    <Calendar />
                     <p>Calendar feature coming soon...</p>
 
                 </div>

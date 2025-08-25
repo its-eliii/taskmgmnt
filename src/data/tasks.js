@@ -6,14 +6,14 @@ export const event = [
     title: "Finish project report",
     description: "Complete the final draft of the project report before Friday.",
     status: "urgent", // non-urgent | urgent | late | done
-    dueDate: "2025-08-22",
+    dueDate: "2025-08-23",
   },
   {
     id: 2,
     title: "Buy groceries",
     description: "Pick up milk, eggs, and vegetables from the store.",
     status: "non-urgent",
-    dueDate: "2025-08-22",
+    dueDate: "2025-08-23",
   },
   {
     id: 3,
