@@ -1,62 +1,77 @@
-import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
-import { event as dummyTasks } from "../data/tasks";
+import React, { useState, useEffect } from "react";
 import "../styles/Home.css";
 import Layout from "../components/Layout.jsx";
 import Summary from "../components/Summary.jsx";
 import Taskcard from "../components/Taskcard.jsx";
 
-
-
-const STATUS = {
-  NON_URGENT: { label: "Non-Urgent", color: "#B168FF" },
-  URGENT: { label: "Urgent", color: "#FF7777" },
-  LATE: { label: "Late", color: "#FFB751" },
-  DONE: { label: "Done", color: "#51FF63" },
-};
-
-const taskModal = () => {
-    alert("Task creation modal coming soon...");
-}
-
 function Home() {
+  const [tasksToday, setTasksToday] = useState([]);
 
-    const today = new Date().toLocaleDateString("en-CA");
-    
-    const tasksToday = dummyTasks.filter(task => task.dueDate === today && task.status !== "done");
-    const taskCountToday = tasksToday.length;
+  const fetchTasks = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/tasks/today");
+      const data = await res.json();
 
-    console.log(today, tasksToday, taskCountToday);
+      if (Array.isArray(data)) {
+        setTasksToday(data);
+      } else {
+        console.error("Backend returned error:", data);
+        setTasksToday([]); // fallback to empty array
+      }
+    } catch (err) {
+      console.error("Error fetching tasks:", err);
+      setTasksToday([]); // prevent crash
+    }
+  };
 
 
-    return (
-        <Layout>
-            <Summary tasks={taskCountToday} />
-            <div className="events">
-                <div className="calendar">
-                    <p>Calendar feature coming soon...</p>
+useEffect(() => {  
+  fetchTasks();
+}, []);
 
-                </div>
-                <div className="task">
-                    <div className="createtask">
-                        <button onClick={taskModal} className="taskbtn">
-                        <FaPlus style={{ marginRight: "8px" }} />
-                        Create a Task
-                        </button>
-                    </div>
-                    <div className="listtask">
-                        {/* task cards will be put here */}
-                        {taskCountToday > 0 ? (tasksToday.map(task => (
-                            <Taskcard key={task.id} task={task}/>
-                        ))
-                        ) : (
-                            <p className="no-tasks">No tasks for today.</p>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </Layout>
-    );
+  const groupedTasks = {
+    urgent: [],
+    'non-urgent': [],
+    late: []
+  };
+
+  tasksToday.forEach(task => {
+    if (groupedTasks[task.status]) {
+      groupedTasks[task.status].push(task);
+    }
+  });
+
+  const taskCountToday = tasksToday.length;
+
+  return (
+    <Layout>
+      <Summary tasks={taskCountToday} />
+      <div className="events">
+        <div className="data">
+          <p>Urgent: {groupedTasks.urgent.length}</p>
+          <p>Non-Urgent: {groupedTasks['non-urgent'].length}</p>
+          <p>Late: {groupedTasks.late.length}</p>
+        </div>
+        <div className="listtask">
+          <div className="u-task">
+            {groupedTasks.urgent.map(task => (
+              <Taskcard key={task.id} task={task} />
+            ))}
+          </div>
+          <div className="nu-task">
+            {groupedTasks['non-urgent'].map(task => (
+              <Taskcard key={task.id} task={task} />
+            ))}
+          </div>
+          <div className="l-task">
+            {groupedTasks.late.map(task => (
+              <Taskcard key={task.id} task={task} />
+            ))}
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
 }
 
 export default Home;

@@ -5,7 +5,7 @@
     align-items: center;
     color: #fff;
     border-radius: 20px;
-    margin: 3px 0;
+    margin: 10px 0;
     width: 100%;
 }
 
@@ -19,7 +19,7 @@
     background-color: #FFB751; /* Orange for late tasks */
 }
 .task-card.done {
-    background-color: #51FF63; /* Green for done tasks */
+    background-color: #5ac45a; /* Green for done tasks */
 }
 
 .task-card h3 {
@@ -33,7 +33,7 @@
 }
 
 .madbtn {
-    background-color: #51FF63;
+    background-color: #E5F5FF;
     color: #1A5190;
     border: none;
     padding: 2px 20px;

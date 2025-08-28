@@ -1,20 +1,24 @@
 import mysql from 'mysql2';
-import express from 'express';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-const db = mysql.createConnection({
+// Create a connection pool for better stability
+const db = mysql.createPool({
     host: 'sql.freedb.tech',
     user: 'freedb_taskmanager',
-    password: '#35z@pnMSxaM!4Q',  
-    database: 'freedb_manage_task'
+    password: '#35z@pnMSxaM!4Q',
+    database: 'freedb_manage_task',
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0
 });
 
-db.connect((err) => {
+// Optional: test a connection from the pool
+db.getConnection((err, connection) => {
     if (err) {
-        console.error('Database connection failed:', err);
-        return;
+        console.error('Database connection failed:', err.message);
+    } else {
+        console.log('Connected to the database');
+        connection.release(); // release back to pool
     }
-    console.log('Connected to the database');
 });
+
+export default db;

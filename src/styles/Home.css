@@ -5,49 +5,43 @@
 
 .events {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     padding: 10px 0 0 0;
 }
 
-.task {
-    margin-left: 5px;
+.data {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    width: 320px;
+    width: 100%;
 }
 
-.taskbtn {
-    background-color: #5379A5;
-    color: white;
-    border: none;
-    width: 320px;
-    padding: 10px 20px;
-    margin-bottom: 10px;
-    font-size: 18px;
-    cursor: pointer;
-    border-radius: 20px;
-}
-
-.calendar {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 440px;
-    width: 940px;
+.data p {
     background-color: #E5F5FF;
-    padding: 20px;
-    margin-right: 5px;
+    padding: 20px 10px;
+    margin: 5px ;
+    width: 100%;
+    font-size: 18px;
+    color: #1A5190;
     border-radius: 20px;
 }
 
 .listtask {
+    background-color: #E5F5FF;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 440px;
-    width: 320px;
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+    margin-top: 10px;
     border-radius: 20px;
+}
+
+.u-task, .nu-task, .l-task {
+    /* background-color: #E5F5FF; */
+    padding: 10px;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    /* overflow-y: auto; */
 }
