@@ -3,7 +3,7 @@ import "../styles/Taskcard.css";
 const Taskcard = ({ task, onDone }) => {
     const markAsDone = async () => {
         try {
-        const res = await fetch(`https://taskmgmnt-backend.onrender.com/${task.id}/done`, {
+        const res = await fetch(`https://taskmgmnt-backend.onrender.com/tasks/${task.id}/done`, {
             method: "PUT"
         });
 
@@ -14,8 +14,8 @@ const Taskcard = ({ task, onDone }) => {
             alert("❌ Failed to mark task as done.");
         }
         } catch (err) {
-        console.error("Error marking task as done:", err);
-        alert("⚠️ Error occurred.");
+            console.error("Error marking task as done:", err);
+            alert("⚠️ Error occurred.");
         }
     };
 
