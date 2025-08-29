@@ -3,7 +3,7 @@ import "../styles/Taskcard.css";
 const Taskcard = ({ task, onDone }) => {
     const markAsDone = async () => {
         try {
-        const res = await fetch(`http://localhost:3000/tasks/${task.id}/done`, {
+        const res = await fetch(`https://taskmgmnt-backend.onrender.com/${task.id}/done`, {
             method: "PUT"
         });
 

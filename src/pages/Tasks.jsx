@@ -12,7 +12,7 @@ export default function Tasks() {
 
   const fetchAllTasks = async () => {
     try {
-      const res = await fetch("http://localhost:3000/tasks");
+      const res = await fetch("https://taskmgmnt-backend.onrender.com/tasks");
       const data = await res.json();
       if (Array.isArray(data)) {
         setAllTasks(data);
