@@ -21,65 +21,65 @@ const formatForSQL = (date) =>
   }).replace(",", "");
 
 app.get('/tasks/today', (req, res) => {
-  const now = new Date();
+    const now = new Date();
 
-  const startOfDay = new Date();
-  startOfDay.setHours(0, 0, 0, 0);
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
 
-  const endOfDay = new Date();
-  endOfDay.setHours(23, 59, 59, 0);
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 0);
 
-  const start = formatForSQL(startOfDay); // '2025-08-29 00:00:00'
-  const end = formatForSQL(endOfDay);     // '2025-08-29 23:59:59'
+    const start = formatForSQL(startOfDay); // '2025-08-29 00:00:00'
+    const end = formatForSQL(endOfDay);     // '2025-08-29 23:59:59'
 
-  console.log("Fetching tasks due today between:", start, "and", end);
+    console.log("Fetching tasks due today between:", start, "and", end);
 
-  const query = `SELECT * FROM tasks WHERE due BETWEEN ? AND ? AND status != 'done'`;
-  db.query(query, [start, end], (err, results) => {
-    if (err) {
-      console.error("Database error:", err);
-      return res.status(500).json({ error: "DB error", details: err.message });
-    }
+    const query = `SELECT * FROM tasks WHERE due BETWEEN ? AND ? AND status != 'done' ORDER BY due ASC`;
+    db.query(query, [start, end], (err, results) => {
+        if (err) {
+        console.error("Database error:", err);
+        return res.status(500).json({ error: "DB error", details: err.message });
+        }
 
-    const updatedResults = results.map(task => {
-      const dueTime = new Date(task.due);
-      if (dueTime < now && task.status !== 'done' && task.status !== 'late') {
-        db.query('UPDATE tasks SET status = ? WHERE id = ?', ['late', task.id]);
-        task.status = 'late';
-      }
-      return task;
+        const updatedResults = results.map(task => {
+        const dueTime = new Date(task.due);
+        if (dueTime < now && task.status !== 'done' && task.status !== 'late') {
+            db.query('UPDATE tasks SET status = ? WHERE id = ?', ['late', task.id]);
+            task.status = 'late';
+        }
+        return task;
+        });
+
+        res.json(updatedResults);
     });
-
-    res.json(updatedResults);
-  });
 });
 
 app.post('/tasks', (req, res) => {
-  const { title, description, status, due } = req.body;
-  const query = `
-    INSERT INTO tasks (title, description, status, due)
-    VALUES (?, ?, ?, ?)
-  `;
-  db.query(query, [title, description, status, due], (err, result) => {
-    if (err) {
-      console.error("Insert error:", err);
-      return res.status(500).json({ error: "DB error", details: err.message });
-    }
-    res.status(201).json({ message: "Task added", id: result.insertId });
-  });
+    const { title, description, status, due } = req.body;
+    const query = `
+        INSERT INTO tasks (title, description, status, due)
+        VALUES (?, ?, ?, ?)
+    `;
+    db.query(query, [title, description, status, due], (err, result) => {
+        if (err) {
+        console.error("Insert error:", err);
+        return res.status(500).json({ error: "DB error", details: err.message });
+        }
+        res.status(201).json({ message: "Task added", id: result.insertId });
+    });
 });
 
 app.put('/tasks/:id/done', (req, res) => {
-  const taskId = req.params.id;
-  const query = `UPDATE tasks SET status = 'done' WHERE id = ?`;
+    const taskId = req.params.id;
+    const query = `UPDATE tasks SET status = 'done' WHERE id = ?`;
 
-  db.query(query, [taskId], (err, result) => {
-    if (err) {
-      console.error("Error updating task:", err);
-      return res.status(500).json({ error: "DB error", details: err.message });
-    }
-    res.json({ message: "Task marked as done", id: taskId });
-  });
+    db.query(query, [taskId], (err, result) => {
+        if (err) {
+        console.error("Error updating task:", err);
+        return res.status(500).json({ error: "DB error", details: err.message });
+        }
+        res.json({ message: "Task marked as done", id: taskId });
+    });
 });
 
 app.get('/tasks', (req, res) => {
@@ -94,5 +94,5 @@ app.get('/tasks', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });

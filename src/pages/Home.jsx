@@ -55,17 +55,17 @@ useEffect(() => {
         <div className="listtask">
           <div className="u-task">
             {groupedTasks.urgent.map(task => (
-              <Taskcard key={task.id} task={task} />
+              <Taskcard key={task.id} task={task} onDone={fetchTasks} />
             ))}
           </div>
           <div className="nu-task">
             {groupedTasks['non-urgent'].map(task => (
-              <Taskcard key={task.id} task={task} />
+              <Taskcard key={task.id} task={task} onDone={fetchTasks} />
             ))}
           </div>
           <div className="l-task">
             {groupedTasks.late.map(task => (
-              <Taskcard key={task.id} task={task} />
+              <Taskcard key={task.id} task={task} onDone={fetchTasks} />
             ))}
           </div>
         </div>
