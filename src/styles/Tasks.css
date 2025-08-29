@@ -40,10 +40,10 @@
 
 .task-list {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px , 1fr));
     grid-auto-rows: 1fr;
     column-gap: 10px;
-    height: 510px;
+    height: 100%;
     width: auto;
     border-radius: 20px;
     background-color: #E5F5FF;

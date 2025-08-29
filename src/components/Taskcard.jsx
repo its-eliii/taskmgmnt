@@ -26,6 +26,7 @@ const Taskcard = ({ task, onDone }) => {
             <p className="task-due">
                 <strong>Due: </strong>
                 {new Date(task.due).toLocaleString("en-PH", {
+                timeZone: "Asia/Manila",
                 year: "numeric",
                 month: "short",
                 day: "numeric",

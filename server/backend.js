@@ -9,16 +9,18 @@ app.use(bodyParser.json());
 
 const PORT = process.env.PORT || 3000;
 
+// Format date for MySQL in UTC
 const formatForSQL = (date) =>
-  date.toLocaleString("en-CA", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hour12: false
-  }).replace(",", "");
+    date.toLocaleString("en-CA", {
+        timeZone: "UTC",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+    }).replace(",", "");
 
 app.get('/tasks/today', (req, res) => {
     const now = new Date();
@@ -29,10 +31,8 @@ app.get('/tasks/today', (req, res) => {
     const endOfDay = new Date();
     endOfDay.setHours(23, 59, 59, 0);
 
-    const start = formatForSQL(startOfDay); // '2025-08-29 00:00:00'
-    const end = formatForSQL(endOfDay);     // '2025-08-29 23:59:59'
-
-    console.log("Fetching tasks due today between:", start, "and", end);
+    const start = formatForSQL(startOfDay);
+    const end = formatForSQL(endOfDay);
 
     const query = `SELECT * FROM tasks WHERE due BETWEEN ? AND ? AND status != 'done' ORDER BY due ASC`;
     db.query(query, [start, end], (err, results) => {
@@ -56,11 +56,17 @@ app.get('/tasks/today', (req, res) => {
 
 app.post('/tasks', (req, res) => {
     const { title, description, status, due } = req.body;
+
+    // Convert Manila time to UTC before storing
+    const localDate = new Date(due);
+    const utcDate = new Date(localDate.toLocaleString("en-US", { timeZone: "UTC" }));
+    const formattedDue = formatForSQL(utcDate);
+
     const query = `
         INSERT INTO tasks (title, description, status, due)
         VALUES (?, ?, ?, ?)
     `;
-    db.query(query, [title, description, status, due], (err, result) => {
+    db.query(query, [title, description, status, formattedDue], (err, result) => {
         if (err) {
         console.error("Insert error:", err);
         return res.status(500).json({ error: "DB error", details: err.message });
@@ -83,21 +89,19 @@ app.put('/tasks/:id/done', (req, res) => {
 });
 
 app.get('/tasks', (req, res) => {
-  const query = `SELECT * FROM tasks WHERE status != 'done' ORDER BY due ASC`; // ✅ descending order
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error("Error fetching all tasks:", err);
-      return res.status(500).json({ error: "DB error", details: err.message });
-    }
-    res.json(results);
-  });
+    const query = `SELECT * FROM tasks WHERE status != 'done' ORDER BY due ASC`;
+    db.query(query, (err, results) => {
+        if (err) {
+        console.error("Error fetching all tasks:", err);
+        return res.status(500).json({ error: "DB error", details: err.message });
+        }
+        res.json(results);
+    });
 });
 
-// Catch-all for unknown routes
 app.use((req, res) => {
-  res.status(404).json({ error: "Route not found" });
+    res.status(404).json({ error: "Route not found" });
 });
-
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

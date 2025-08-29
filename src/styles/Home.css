@@ -28,7 +28,7 @@
 }
 
 .listtask {
-    background-color: #E5F5FF;
+    /* background-color: #E5F5FF; */
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -37,11 +37,20 @@
     border-radius: 20px;
 }
 
+.notask {
+    color: #1A5190;
+    font-size: 1.2em;
+    /* font-weight: 500; */
+    padding: 52px 0;
+    margin-bottom: 10px;
+}
+
 .u-task, .nu-task, .l-task {
-    /* background-color: #E5F5FF; */
+    background-color: #E5F5FF;
+    margin: 5px;
     padding: 10px;
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 20px;
     /* overflow-y: auto; */
 }
