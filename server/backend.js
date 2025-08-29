@@ -93,6 +93,12 @@ app.get('/tasks', (req, res) => {
   });
 });
 
+// Catch-all for unknown routes
+app.use((req, res) => {
+  res.status(404).json({ error: "Route not found" });
+});
+
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
