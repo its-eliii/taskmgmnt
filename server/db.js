@@ -2,10 +2,11 @@ import mysql from 'mysql2';
 
 // Create a connection pool for better stability
 const db = mysql.createPool({
-    host: 'sql.freedb.tech',
-    user: 'freedb_taskmanager',
-    password: '#35z@pnMSxaM!4Q',
-    database: 'freedb_manage_task',
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    port: process.env.DB_PORT,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
