@@ -48,11 +48,11 @@ app.get('/tasks/today', (req, res) => {
 app.post('/tasks', (req, res) => {
     const { title, description, status, due } = req.body;
 
-    // Convert local time string to UTC Date
+    // Parse local datetime string directly
     const localDate = new Date(due);
-    const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
 
-    const formattedDue = formatForSQL(utcDate);
+    // Format for SQL in UTC (toISOString is always UTC)
+    const formattedDue = formatForSQL(localDate);
 
     const query = `
         INSERT INTO tasks (title, description, status, due)
