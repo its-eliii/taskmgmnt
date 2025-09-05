@@ -7,7 +7,7 @@ export default function Done() {
   const [doneTasks, setDoneTasks] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/tasks/done")
+    axios.get("https://taskmgmnt-backend.onrender.com/tasks/done")
       .then(res => setDoneTasks(res.data))
       .catch(err => console.error("Error fetching done tasks:", err));
   }, []);
