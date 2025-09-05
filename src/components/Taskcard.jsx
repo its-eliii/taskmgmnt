@@ -31,8 +31,8 @@ const Taskcard = ({ task, onDone }) => {
                     day: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: true
-                    // No timeZone option
+                    hour12: true,
+                    timeZone: "Asia/Manila"
                 })}
             </p>
             <button onClick={markAsDone} className="madbtn">Mark as Done</button>
