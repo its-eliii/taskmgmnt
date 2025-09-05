@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom";
 import "../styles/Sidebar.css";
 
-const Sidebar = () => {
+export default function Sidebar({ isOpen }) {
     return (
-        <aside className="sidebar">
+        <aside className={`sidebar ${isOpen ? "open" : ""}`}>
             <ul>
                 <li>
                     <NavLink to="/" className={({ isActive }) => isActive ? 'link active' : 'link'}>
@@ -25,4 +25,3 @@ const Sidebar = () => {
     );
 }
 
-export default Sidebar;

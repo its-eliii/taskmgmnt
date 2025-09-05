@@ -1,11 +1,15 @@
 import "../styles/Header.css";
+import { Link } from "react-router-dom";
 
-const Header = () => {
+export default function Header({ toggleSidebar }) {
     return (
-        <header className="header">
-            <h1>TaskMan</h1>
-        </header>
+        <div className="header">
+            <Link to="/" style={{ textDecoration: "none", color: "#ECF0F1" }}>
+                <h1>TaskMan</h1>
+            </Link>
+            <button className="hamburger" onClick={toggleSidebar}>
+                ☰
+            </button>
+        </div>
     );
 }
-
-export default Header;

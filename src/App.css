@@ -20,3 +20,15 @@
   /* min-height: calc(100vh - 80px); */
   background-color: #AECBEC;
 }
+
+
+@media (max-width: 600px) {
+  .content {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .layout-content {
+    padding: 10px;
+  }
+}

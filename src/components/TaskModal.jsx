@@ -44,8 +44,6 @@ export default function TaskModal({ isOpen, onClose, mode = "add", taskData = {}
         <select name="status" value={form.status} onChange={handleChange}>
           <option value="non-urgent">Non-Urgent</option>
           <option value="urgent">Urgent</option>
-          <option value="late">Late</option>
-          <option value="done">Done</option>
         </select>
         <input type="datetime-local" name="due" value={form.due} onChange={handleChange} />
         <div className="buttons">

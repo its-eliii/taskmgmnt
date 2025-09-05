@@ -3,7 +3,7 @@ import "../styles/Taskcard.css";
 const Taskcard = ({ task, onDone }) => {
     const markAsDone = async () => {
         try {
-        const res = await fetch(`https://taskmgmnt-backend.onrender.com/tasks/${task.id}/done`, {
+        const res = await fetch(`http://localhost:3000/tasks/${task.id}/done`, {
             method: "PUT"
         });
 
@@ -26,13 +26,13 @@ const Taskcard = ({ task, onDone }) => {
             <p className="task-due">
                 <strong>Due: </strong>
                 {new Date(task.due).toLocaleString("en-PH", {
-                timeZone: "Asia/Manila",
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "2-digit",
-                minute: "2-digit",
-                hour12: true
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true
+                    // No timeZone option
                 })}
             </p>
             <button onClick={markAsDone} className="madbtn">Mark as Done</button>

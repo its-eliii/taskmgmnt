@@ -9,7 +9,7 @@ function Home() {
 
   const fetchTasks = async () => {
     try {
-      const res = await fetch("https://taskmgmnt-backend.onrender.com/tasks/today");
+      const res = await fetch("http://localhost:3000/tasks/today");
       const data = await res.json();
 
       if (Array.isArray(data)) {

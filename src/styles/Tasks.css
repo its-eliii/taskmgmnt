@@ -50,3 +50,27 @@
     padding: 10px;
     overflow-y: auto;
 }
+
+
+@media (max-width: 600px) {
+  .top-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .top-content button {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  .filter-dropdown {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .task-list {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+}

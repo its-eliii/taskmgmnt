@@ -11,16 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 // Format date for MySQL in UTC
 const formatForSQL = (date) =>
-    date.toLocaleString("en-CA", {
-        timeZone: "UTC",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-    }).replace(",", "");
+    date.toISOString().slice(0, 19).replace("T", " "); // "YYYY-MM-DD HH:MM:SS" in UTC
 
 app.get('/tasks/today', (req, res) => {
     const now = new Date();
@@ -57,9 +48,10 @@ app.get('/tasks/today', (req, res) => {
 app.post('/tasks', (req, res) => {
     const { title, description, status, due } = req.body;
 
-    // Convert Manila time to UTC before storing
+    // Convert local time string to UTC Date
     const localDate = new Date(due);
-    const utcDate = new Date(localDate.toLocaleString("en-US", { timeZone: "UTC" }));
+    const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+
     const formattedDue = formatForSQL(utcDate);
 
     const query = `
@@ -68,8 +60,8 @@ app.post('/tasks', (req, res) => {
     `;
     db.query(query, [title, description, status, formattedDue], (err, result) => {
         if (err) {
-        console.error("Insert error:", err);
-        return res.status(500).json({ error: "DB error", details: err.message });
+            console.error("Insert error:", err);
+            return res.status(500).json({ error: "DB error", details: err.message });
         }
         res.status(201).json({ message: "Task added", id: result.insertId });
     });
@@ -89,14 +81,36 @@ app.put('/tasks/:id/done', (req, res) => {
 });
 
 app.get('/tasks', (req, res) => {
+    const now = new Date();
     const query = `SELECT * FROM tasks WHERE status != 'done' ORDER BY due ASC`;
     db.query(query, (err, results) => {
         if (err) {
-        console.error("Error fetching all tasks:", err);
-        return res.status(500).json({ error: "DB error", details: err.message });
+            console.error("Error fetching all tasks:", err);
+            return res.status(500).json({ error: "DB error", details: err.message });
         }
-        res.json(results);
+        const updatedResults = results.map(task => {
+            const dueTime = new Date(task.due);
+            if (dueTime < now && task.status !== 'done' && task.status !== 'late') {
+                db.query('UPDATE tasks SET status = ? WHERE id = ?', ['late', task.id]);
+                task.status = 'late';
+            }
+            return task;
+        });
+        res.json(updatedResults);
     });
+});
+
+app.get('/tasks/done', (req, res) => {
+  const query = `SELECT * FROM tasks WHERE status = 'done' ORDER BY due DESC`;
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("❌ Error fetching done tasks:", err);
+      return res.status(500).json({ error: "Database error" });
+    }
+
+    res.json(results);
+  });
 });
 
 app.use((req, res) => {
