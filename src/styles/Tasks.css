@@ -38,6 +38,19 @@
     border-radius: 20px;
 }
 
+.container {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.container h2 {
+  color: #1A5190;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 20px 0 5px 0;
+  text-align: center;
+}
+
 .task-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px , 1fr));

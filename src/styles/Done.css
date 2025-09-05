@@ -75,6 +75,7 @@
 @media (max-width: 600px) {
   .done-container {
     padding: 16px;
+    margin-top: 60px; /* Add this to push below header/sidebar */
   }
 
   .done-title {

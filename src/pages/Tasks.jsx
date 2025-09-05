@@ -78,14 +78,17 @@ export default function Tasks() {
             </button>
         </div>
 
-        <div className="task-list">
-            {visibleTasks.length === 0 ? (
-            <p>No tasks found.</p>
-            ) : (
-            visibleTasks.map(task => (
-                <Taskcard key={task.id} task={task} onDone={fetchAllTasks} />
-            ))
-            )}
+        <div className="container">
+            <h2>Sorted by Date</h2>
+            <div className="task-list">
+                {visibleTasks.length === 0 ? (
+                <p>No tasks found.</p>
+                ) : (
+                visibleTasks.map(task => (
+                    <Taskcard key={task.id} task={task} onDone={fetchAllTasks} />
+                ))
+                )}
+            </div>
         </div>
 
         <TaskModal

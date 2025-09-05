@@ -6,7 +6,8 @@
     left: 0;
     text-align: left;
     background-color: #E5F5FF;
-    padding-top: 50px
+    padding-top: 50px;
+    z-index: 2000; /* Add this line */
 }
 
 .sidebar ul {
